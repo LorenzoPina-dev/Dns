@@ -7,7 +7,10 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Lib;
+using Lib.TypeData;
 using Lib.Udp;
+using static Server.classi.GestioneRequest;
+
 namespace Server.classi
 {
     class GestioneUdp
@@ -25,14 +28,14 @@ namespace Server.classi
             client = new UdpClient(porta);
             DaInviare = new Queue<MessaggioUdp>();
             DaElaborare = new Queue<MessaggioUdp>();
-            /* Thread s = new Thread(Server);
+            Thread s = new Thread(Server);
              Thread c = new Thread(Client);
              Thread v = new Thread(Elabora);
              s.Start();
              c.Start();
-             v.Start();*/
-            Thread gestione = new Thread(GestioneRichieste);
-            gestione.Start();
+             v.Start();
+            /*Thread gestione = new Thread(GestioneRichieste);
+            gestione.Start();*/
         }
         public void GestioneRichieste()
         {
@@ -50,7 +53,55 @@ namespace Server.classi
                 request = mUdp;
                 if (m.Opcode == 0)
                 {
-                    GestioneRequest.ResolveStandardQuery(d, mUdp);
+                    Risposta risp=  GestioneRequest.ResolveStandardQuery(d, mUdp);
+                    if (risp.tipo != TypeRisposta.Niente)
+                    {
+                        switch(risp.tipo)
+                        {
+                            case TypeRisposta.Additional:
+                                mUdp.messaggio.ARcount++;
+                                mUdp.messaggio.additional.Add(risp.risposta);
+                                if(mUdp.messaggio.RD==true)
+                                    DaInviare.Enqueue(new MessaggioUdp() { ip = "localhost", porta = d.ip[((A)risp.risposta.RData).Ip], messaggio = mUdp.messaggio });
+                                else if(d.possoIterativa)
+                                    DaInviare.Enqueue(new MessaggioUdp() { ip = "localhost", porta = mUdp.porta, messaggio = mUdp.messaggio });
+                                else
+                                    DaInviare.Enqueue(new MessaggioUdp() { ip = "localhost", porta = d.ip[((A)risp.risposta.RData).Ip], messaggio = mUdp.messaggio });
+                                break;
+                            case TypeRisposta.Risposta:
+                                mUdp.messaggio.ANcount++;
+                                mUdp.messaggio.risposte.Add(risp.risposta);
+                                DaInviare.Enqueue(new MessaggioUdp() { ip = "localhost", porta = mUdp.porta, messaggio = mUdp.messaggio });
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        //errore
+                    }
+                }
+                else if(m.Opcode==1)
+                {
+                    Risposta risp = GestioneRequest.ResolveInverseQuery(d, mUdp);
+                    if (risp.tipo != TypeRisposta.Niente)
+                    {
+                        switch (risp.tipo)
+                        {
+                            case TypeRisposta.Additional:
+                                mUdp.messaggio.ARcount++;
+                                mUdp.messaggio.additional.Add(risp.risposta);
+                                break;
+                            case TypeRisposta.Risposta:
+                                mUdp.messaggio.ANcount++;
+                                mUdp.messaggio.risposte.Add(risp.risposta);
+                                break;
+                        }
+                        DaInviare.Enqueue(new MessaggioUdp() { ip = "localhost", porta = d.ip[mUdp.messaggio.query[0].name], messaggio = mUdp.messaggio });
+                    }
+                    else
+                    {
+                        //errore
+                    }
                 }
             }
 

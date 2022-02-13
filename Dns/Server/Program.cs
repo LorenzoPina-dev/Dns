@@ -19,6 +19,9 @@ namespace Server
         static void Main(string[] args)
         {
             DatiCondivisi d = new DatiCondivisi();
+            string nomeServer;
+            int port; 
+
             d.Upload("./Server/root.csv");
              GestioneUdp g = new GestioneUdp(5000,d);
             

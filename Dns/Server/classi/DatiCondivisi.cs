@@ -9,14 +9,25 @@ using System.Threading.Tasks;
 
 namespace Server.classi
 {
-    class DatiCondivisi
+    public class DatiCondivisi
     {
-        public Dictionary<string, ResourceRecord> A, NS, Cache;
+        public bool possoIterativa;
+        public Dictionary<string, int> ip;
+        public Dictionary<string, ResourceRecord> A, NS,SOA,PTR, Cache;
         public DatiCondivisi()
         {
             A = new Dictionary<string, ResourceRecord>();
             NS = new Dictionary<string, ResourceRecord>();
+            SOA = new Dictionary<string, ResourceRecord>();
             Cache = new Dictionary<string, ResourceRecord>();
+            ip = new Dictionary<string, int>();
+            ip.Add("192.168.1.7", 5020);
+            ip.Add("192.168.1.7", 5020);
+            ip.Add("192.168.1.7", 5020);
+            ip.Add("192.168.1.7", 5020);
+            ip.Add("192.168.1.7", 5020);
+            ip.Add("192.168.1.7", 5020);
+            ip.Add("192.168.1.7", 5020);
         }
         public void Upload(string file)
         {
