@@ -25,7 +25,7 @@ namespace Server.classi
         {
             if (d.Cache.ContainsKey(request.messaggio.query[0].name))
             {
-                return new Risposta() { tipo = TypeRisposta.Risposta, risposta = d.A[request.messaggio.query[0].name] };
+                return new Risposta() { tipo = TypeRisposta.Risposta, risposta = d.Cache[request.messaggio.query[0].name] };
             }
             else if (d.A.ContainsKey(request.messaggio.query[0].name))
             {

@@ -23,7 +23,7 @@ namespace Server
             int port; 
 
             d.Upload("./Server/root.csv");
-             GestioneUdp g = new GestioneUdp(5000,d);
+             GestioneUdp g = new GestioneUdp(d);
             
             /*int porta;
             Type*/

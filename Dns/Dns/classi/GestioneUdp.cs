@@ -23,12 +23,12 @@ namespace Client.classi
             client = new UdpClient(porta);
             DaInviare = new Queue<MessaggioUdp>();
             DaElaborare = new Queue<MessaggioUdp>();
-            Thread s = new Thread(Server);
-            Thread c = new Thread(Client);
-            Thread v = new Thread(Elabora);
-            s.Start();
-            c.Start();
-            v.Start();
+            //Thread s = new Thread(Server);
+            //Thread c = new Thread(Client);
+            //Thread v = new Thread(Elabora);
+            //s.Start();
+            //c.Start();
+            //v.Start();
         }
         public void ElaboraM (MessaggioUdp mUdp)
         {

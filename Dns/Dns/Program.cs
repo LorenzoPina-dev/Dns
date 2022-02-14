@@ -38,6 +38,8 @@ namespace Client
                 s.TTL = 0;
                 m.query.Add(s);
                 u.Invia(mu);
+                MessaggioUdp RISP=u.Ricevi();
+                Console.WriteLine(RISP.messaggio.toCsv());
             }
         }
     }

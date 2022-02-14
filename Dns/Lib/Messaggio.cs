@@ -46,13 +46,13 @@ namespace Lib
             NScount = int.Parse(split[indice++]);
             ARcount = int.Parse(split[indice++]);
             for (int i = 0; i < QDcount; i++)
-                query.Add(new ResourceRecord(indice,split));
+                query.Add(new ResourceRecord(ref indice,split));
             for (int i = 0; i < ANcount; i++)
-                risposte.Add(new ResourceRecord(indice, split));
+                risposte.Add(new ResourceRecord(ref indice, split));
             for (int i = 0; i < NScount; i++)
-                autority.Add(new ResourceRecord(indice, split));
+                autority.Add(new ResourceRecord(ref indice, split));
             for (int i = 0; i < ARcount; i++)
-                additional.Add(new ResourceRecord(indice, split));
+                additional.Add(new ResourceRecord(ref indice, split));
         }
         public string toCsv()
         {

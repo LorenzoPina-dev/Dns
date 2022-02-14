@@ -15,7 +15,7 @@ namespace Lib.TypeData
         public Data() { }
         public virtual void Carica(int indice,string[] csv)
         {
-
+            indice++;
         }
         public virtual string ToCsv()
         {

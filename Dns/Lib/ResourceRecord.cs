@@ -18,7 +18,7 @@ namespace Lib
         {
 
         }
-        public ResourceRecord(int indice,string[] csv)
+        public ResourceRecord(ref int indice,string[] csv)
         {
             this.name = csv[indice++];
             this.Type = (TypeDatas)int.Parse(csv[indice++]);

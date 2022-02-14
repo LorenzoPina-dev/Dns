@@ -22,10 +22,10 @@ namespace Server.classi
         public bool Termina;
         MessaggioUdp request;
         DatiCondivisi d;
-        public GestioneUdp(int porta,DatiCondivisi d)
+        public GestioneUdp(DatiCondivisi d)
         {
             this.d = d;
-            client = new UdpClient(porta);
+            client = new UdpClient(d.porta);
             DaInviare = new Queue<MessaggioUdp>();
             DaElaborare = new Queue<MessaggioUdp>();
             Thread s = new Thread(Server);
