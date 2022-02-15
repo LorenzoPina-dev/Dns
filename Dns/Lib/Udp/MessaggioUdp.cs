@@ -13,5 +13,9 @@ namespace Lib.Udp
         public int porta;
         public Messaggio messaggio;
         public MessaggioUdp() { }
+        public string toCsv()
+        {
+            return ip + ";" + porta + ";" + messaggio.toCsv();
+        }
     }
 }

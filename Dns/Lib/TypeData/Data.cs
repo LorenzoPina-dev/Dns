@@ -13,7 +13,7 @@ namespace Lib.TypeData
     public class Data
     {
         public Data() { }
-        public virtual void Carica(int indice,string[] csv)
+        public virtual void Carica(ref int indice,string[] csv)
         {
             indice++;
         }
@@ -21,5 +21,6 @@ namespace Lib.TypeData
         {
             return "";
         }
+
     }
 }

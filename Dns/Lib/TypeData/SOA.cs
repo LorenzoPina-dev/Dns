@@ -11,7 +11,7 @@ namespace Lib.TypeData
         public string Name, Mail;
         public int MinTTL,RefreshTime, RetryTime, ExpiryTime;
         public SOA() { }
-        public override void Carica(int indice, string[] csv)
+        public override void Carica(ref int indice, string[] csv)
         {
             Name = csv[indice++];
             Mail = csv[indice++];

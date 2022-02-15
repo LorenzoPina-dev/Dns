@@ -23,26 +23,18 @@ namespace Lib
             this.name = csv[indice++];
             this.Type = (TypeDatas)int.Parse(csv[indice++]);
             this.Class =csv[indice++];
-            indice++;
             this.TTL = int.Parse(csv[indice++]);
+            indice++;
 
             if (Type == TypeDatas.A)
-            {
                 this.RData = new A();
-                RData.Carica(indice, csv);
-            }
             else if (Type == TypeDatas.NS)
-            {
                 this.RData = new NS();
-                RData.Carica(indice, csv);
-            }
             else if (Type == TypeDatas.SOA)
-            {
                 this.RData = new SOA();
-                RData.Carica(indice, csv);
-            }
             else
                 this.RData = new Data();
+            RData.Carica(ref indice, csv);
             this.RDLength = RData.ToCsv().Length;
 
         }
@@ -54,5 +46,6 @@ namespace Lib
                 lung = 4;
             return name + ";" + (int)Type + ";" + Class + ";" + TTL + ";" + lung + ";" +data;
         }
+
     }
 }

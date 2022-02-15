@@ -10,7 +10,7 @@ namespace Lib.TypeData
     {
         public string Ip;
         public A() { }
-        public override void Carica(int indice,string[] csv)
+        public override void Carica(ref int indice,string[] csv)
         {
             Ip = csv[indice++];
         }

@@ -18,11 +18,18 @@ namespace Server
         }
         static void Main(string[] args)
         {
+            string file;
+            if (args.Length > 0)
+            {
+                file = args[0];
+                Console.WriteLine(file);
+            }
+            else
+                file = Console.ReadLine();
             DatiCondivisi d = new DatiCondivisi();
             string nomeServer;
-            int port; 
-
-            d.Upload("./Server/root.csv");
+            int port;
+            d.Upload("./Server/"+file+".csv");
              GestioneUdp g = new GestioneUdp(d);
             
             /*int porta;
