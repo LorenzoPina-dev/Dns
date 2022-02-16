@@ -103,19 +103,9 @@ namespace Server.classi
                     Risposta risp = GestioneRequest.ResolveInverseQuery(d, mUdp);
                     if (risp.tipo != TypeRisposta.Niente)
                     {
-                        switch (risp.tipo)
-                        {
-                            case TypeRisposta.Additional:
-                                mUdp.messaggio.ARcount++;
-                                mUdp.messaggio.additional.Add(risp.risposta);
-                                break;
-                            case TypeRisposta.Risposta:
-                                mUdp.messaggio.QR = false;
-                                mUdp.messaggio.ANcount++;
-                                mUdp.messaggio.risposte.Add(risp.risposta);
-                                break;
-                        }
-                        Console.WriteLine(JsonConvert.SerializeObject(mUdp.messaggio, Formatting.Indented) + "\r\n");
+                        mUdp.messaggio.QR = false;
+                        mUdp.messaggio.ANcount++;
+                        mUdp.messaggio.risposte.Add(risp.risposta);
                         DaInviare.Enqueue(new MessaggioUdp() { ip = "localhost", porta = d.ip[mUdp.messaggio.query[0].name], messaggio = mUdp.messaggio });
                     }
                     else
@@ -137,7 +127,6 @@ namespace Server.classi
                 {
                     if (mUdp.messaggio.ANcount > 0)
                         d.Cache.Add(mUdp.messaggio.risposte[0].name, mUdp.messaggio.risposte[0]);
-                    Console.WriteLine(JsonConvert.SerializeObject(mUdp.messaggio, Formatting.Indented) + "\r\n");
                     DaInviare.Enqueue(new MessaggioUdp() { ip = "localhost", porta = request[mUdp.messaggio.identificativo].porta, messaggio = mUdp.messaggio });
                     request = new Dictionary<int, MessaggioUdp>();
                 }
