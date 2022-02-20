@@ -17,7 +17,6 @@ namespace Client
     {
         static void Main(string[] args)
         {
-            GestioneUdp u = new GestioneUdp(7000);
             /*Dictionary<string, int> ip;
             ip = new Dictionary<string, int>();
            StreamReader sr = new StreamReader("./Server/mapIp.txt");
@@ -28,18 +27,31 @@ namespace Client
                 ip.Add(split[0], int.Parse(split[1]));
             }
             sr.Close();*/
+            string porta;
+            if (args.Length > 0)
+            {
+                porta = args[0];
+                Console.WriteLine(int.Parse(porta));
+            }
+            else
+            {
+                Console.WriteLine("numero porta");
+                porta = Console.ReadLine();
+            }
+            GestioneUdp u = new GestioneUdp(int.Parse(porta));
             while(true)
             {
 
             Console.WriteLine("Risoluzione ricorsiva? Y/N");
             string ricorsiva = Console.ReadLine();
-            Console.WriteLine("Ip?");
+            Console.WriteLine("Name?");
             string ip = Console.ReadLine();
+                Random r = new Random();
             MessaggioUdp mu = new MessaggioUdp();
                 mu.ip = "localhost";
                 mu.porta = 6000;
                 Messaggio m = new Messaggio();
-                m.identificativo = 1120;
+                m.identificativo = r.Next(1,2000);
                 m.Opcode = 0;
                 m.NScount = 0;
                 m.QDcount = 0;
@@ -55,8 +67,9 @@ namespace Client
                 s.TTL = 0;  
                 m.query.Add(s);
                 u.Invia(mu);
+                Console.WriteLine("REQUEST:\r\n" + JsonConvert.SerializeObject(mu.messaggio, Formatting.Indented) + "\r\n");
                 MessaggioUdp RISP=u.Ricevi();
-                Console.WriteLine(JsonConvert.SerializeObject(RISP.messaggio, Formatting.Indented) + "\r\n");
+                Console.WriteLine("RESPONSE:\r\n"+JsonConvert.SerializeObject(RISP.messaggio, Formatting.Indented) + "\r\n");
                 Console.WriteLine("Vuoi continuora? Y/N");
                 if(Console.ReadLine().ToUpper() == "N")
                     return;

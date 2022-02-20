@@ -19,6 +19,7 @@ namespace Server.classi
         {
             public TypeRisposta tipo;
             public ResourceRecord risposta;
+            public bool AA;
         }
 
         public static Risposta ResolveStandardQuery(DatiCondivisi d, MessaggioUdp request,ResourceRecord daElaborare)
@@ -27,11 +28,11 @@ namespace Server.classi
                 daElaborare.name = daElaborare.name.Substring(0, daElaborare.name.Length - 1);
             if (d.Cache.ContainsKey(daElaborare.name))
             {
-                return new Risposta() { tipo = TypeRisposta.Risposta, risposta = d.Cache[daElaborare.name] };
+                return new Risposta() { tipo = TypeRisposta.Risposta, risposta = d.Cache[daElaborare.name], AA = false };
             }
             else if (d.A.ContainsKey(daElaborare.name))
             {
-                return new Risposta() { tipo = TypeRisposta.Risposta, risposta = d.A[daElaborare.name] };
+                return new Risposta() { tipo = TypeRisposta.Risposta, risposta = d.A[daElaborare.name], AA = true };
             }
             else
             {
@@ -43,7 +44,7 @@ namespace Server.classi
         {
             if(d.PTR.ContainsKey(request.messaggio.query[0].name))
             {
-                return new Risposta() { tipo = TypeRisposta.Risposta, risposta = d.PTR[request.messaggio.query[0].name] };
+                return new Risposta() { tipo = TypeRisposta.Risposta, risposta = d.PTR[request.messaggio.query[0].name], AA = false };
             }
             return new Risposta() { tipo = TypeRisposta.Niente };
         }
@@ -63,13 +64,13 @@ namespace Server.classi
                 {
                     if (livello == 3)
                     {
-                        return new Risposta() { tipo = TypeRisposta.Risposta, risposta = d.A[((NS)d.NS[name].RData).Dominio] };
+                        return new Risposta() { tipo = TypeRisposta.Risposta, risposta = d.A[((NS)d.NS[name].RData).Dominio], AA = true };
                         /* request.messaggio.risposte.Add(d.A[((NS)d.NS[name].RData).Dominio]);
                         request.messaggio.ANcount++;*/
                     }
                     else
                     {
-                        return new Risposta() { tipo = TypeRisposta.Additional, risposta = d.A[((NS)d.NS[name].RData).Dominio] };
+                        return new Risposta() { tipo = TypeRisposta.Additional, risposta = d.A[((NS)d.NS[name].RData).Dominio],AA=false };
                         /*request.messaggio.additional.Add(d.A[((NS)d.NS[name].RData).Dominio]);
                         request.messaggio.ARcount++;*/
                     }

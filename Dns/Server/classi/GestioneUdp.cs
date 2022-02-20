@@ -85,6 +85,7 @@ namespace Server.classi
                                     DaInviare.Enqueue(new MessaggioUdp() { ip = "localhost", porta = d.ip[((A)risp.risposta.RData).Ip], messaggio = mUdp.messaggio });
                                 break;
                             case TypeRisposta.Risposta:
+                                mUdp.messaggio.AA = risp.AA;
                                 mUdp.messaggio.QR = false;
                                 mUdp.messaggio.ANcount++;
                                 mUdp.messaggio.risposte.Add(risp.risposta);
@@ -139,9 +140,12 @@ namespace Server.classi
             {
                 if (DaElaborare.Count > 0)
                 {
-                    MessaggioUdp m = DaElaborare.Dequeue();
-                    if (m != null)
-                        ElaboraM(m);
+                    if (DaElaborare.Count > 0)
+                    {
+                        MessaggioUdp m = DaElaborare.Dequeue();
+                        if (m != null)
+                            ElaboraM(m);
+                    }
                 }
             }
         }
@@ -151,9 +155,12 @@ namespace Server.classi
             {
                 if (DaInviare.Count > 0)
                 {
-                    MessaggioUdp m = DaInviare.Dequeue();
-                    if (m != null)
-                        Invia(client,m);
+                    if (DaInviare.Count > 0)
+                    {
+                        MessaggioUdp m = DaInviare.Dequeue();
+                        if (m != null)
+                            Invia(client, m);
+                    }
                 }
             }
         }
